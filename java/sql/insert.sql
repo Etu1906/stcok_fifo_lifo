@@ -18,9 +18,9 @@ INSERT INTO article (idarticle, nom_article, idunite, idtypestock) VALUES
 
 -- Insertion des données dans la table magasin
 INSERT INTO magasin ( idmagasin ,  nom_magasin) VALUES
-    ('M1' , 'magasin1'),
+    ('M1' , 'magasin1'),   
     ('M2' , 'magasin2');
-
+   
 -- Insertion des données dans la table entree
 INSERT INTO entree (idarticle, quantite_entree, pu, idmagasin, date_entree) VALUES
     ('R12', 200, 2000, 'M1', '2019-01-01 00:00:00'),
@@ -38,3 +38,11 @@ INSERT INTO sortie (quantite_sortie, date_sortie, identree) VALUES
     (100, '2019-02-06 00:00:00', 5),
     (100, '2019-02-06 00:00:00', 6),
     (100, '2019-02-06 00:00:00', 7);
+
+update sortie    
+set quantite_sortie = 200
+where idsortie = 1;
+
+update sortie    
+set date_sortie = '2019-03-06 00:00:00'
+where idsortie = 4;

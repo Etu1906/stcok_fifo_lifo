@@ -1,13 +1,13 @@
 -- etat de stock 
 -- pour date 1
-create or replace view v_entree_date1 as  
+create  temp table v_entree_date1 as  
     select *
         from entree as e 
     where idarticle like '%'  
     and date_entree <= '02-02-19'
     and idmagasin like '%';
 
-create or replace view v_sortie_date1 as 
+create temp table v_sortie_date1 as 
     select * 
         from sortie as  s 
     where  date_sortie <= '02-02-19';
@@ -29,7 +29,7 @@ create or replace view v_qte_initiale as
     group  by idarticle , idmagasin;
 
 -- pour date 2
-create or replace view v_entree_date2 as  
+create temp table v_entree_date2 as  
     select *
         from entree as e 
     where idarticle like '%'  
@@ -37,7 +37,7 @@ create or replace view v_entree_date2 as
     and date_entree <= '28-02-19'
     and idmagasin like '%';
 
-create or replace view v_sortie_date2 as 
+create temp table v_sortie_date2 as 
     select * 
         from sortie as  s 
     where date_sortie > '02-02-19'
@@ -103,14 +103,14 @@ create or replace view v_somme_montant as
         from v_etat_stock as e; 
 
 -- mouvement de sortie
-create or replace view v_entree_article as  
+create temp table v_entree_article as  
     select *
         from entree as e 
     where idarticle like 'R11'  
     and date_entree <= '02-02-19'
     and idmagasin like 'M1';
 
-create or replace view v_sortie_article as
+create temp table v_sortie_article as
     select * 
         from sortie as s 
     where identree in (
@@ -132,4 +132,4 @@ create or replace view v_qte_articel_type as
     select *
         from v_qte_article as qa 
     natural join article as a
-    natural join typestock
+    natural join typestock;
