@@ -1,0 +1,53 @@
+typestock:
+    - nom : fifo
+    - nom  : lifo
+
+unite : 
+    - kg
+    - l 
+    - g
+
+article:
+    - id : R1  nom : riz type : fifo
+    - id : R11  nom : riz rouge type : fifo 
+    - id : R12  nom : riz blanc type : fifo
+    - id : R112  nom : riz rose type : lifo
+
+magasin : 
+    - nom : magasin1
+    - nom : magasin2
+entree:
+    - date : 01/01/2019 qte : 200 kg pu : 2000 magasin : magasin1 article : riz blanc
+    - date : 01/01/2019 qte : 100 kg pu : 2000 magasin : magasin2 article : riz rouge
+    - date : 02/02/2019 qte :700 kg pu : 3000 magasin : magasin2 article : riz rouge
+    - date : 02/02/2019 qte :430 kg pu : 2000 magasin : magasin1 article : riz rouge
+    - date : 02/02/2019 qte : 100 kg pu : 2500 magasin : magasin1 article : riz blanc
+    - date : 20/02/2019 qte : 200 kg pu : 3000 magasin : magasin1 article : riz blanc
+    - date : 30/03/2019 qte : 500 kg pu : 4000 magasin : magasin1 article : riz blanc
+    - date : 01/01/2022 qte : 100 kg pu : 5000 magasin : magasin1 article : riz blanc
+
+sortie : 
+    - qte : 100 kg date : 02/01/19  identree : 1
+    - qte : 100 kg date : 06/02/19  identree : 5
+    - qte : 100 kg date : 06/02/19  identree : 6
+    - qte : 100 kg date : 06/02/19  identree : 7
+
+    
+Stock : 
+    - Article 
+    - Magasin
+    - qte Initial double 
+    - sortant double 
+    - montant double 
+
+EtaTStock: 
+    - listeStock[]
+    - debut String
+    - fin String
+    - sommmeMontant double 
+
+Mouvement:
+    - date (string)
+    - article
+    - qte 
+    - magasin 
