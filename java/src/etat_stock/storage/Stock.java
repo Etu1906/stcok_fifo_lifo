@@ -15,7 +15,10 @@ public class Stock {
     }
 
     public void setPu() {
-        setPu(getMontant() / getSortant());
+        if (getSortant() == 0)
+            setPu(0);
+        else
+            setPu(getMontant() / getSortant());
     }
 
     public void setPu(double pu) {

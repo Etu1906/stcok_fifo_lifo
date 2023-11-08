@@ -37,7 +37,8 @@ public class EtatStock {
             idmagasin = "%";
         if (idarticle.isEmpty())
             idarticle = "%";
-        System.out.println("SELECT create_views(" + dt1 + ", " + dt2 + " , " + idmagasin + ", " + idarticle + ")");
+        System.out.println(
+                "SELECT create_views('" + dt1 + "', '" + dt2 + "' , '" + idmagasin + "' , '" + idarticle + "' )");
         String sql = "SELECT create_views(?, ?, ?, ?)";
         Connection conn = c.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -107,7 +108,7 @@ public class EtatStock {
             c = new Connect();
             c.getConnectionPostGresql();
         }
-        String sql = " select * from v_etat_stock_unite_typestock ";
+        String sql = " select * from v_etat_stock_unite_typestock order by idarticle , idmagasin , idtypestock ";
         Connection conn = c.getConnection(); // Récupère la connexion à la base de données
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();

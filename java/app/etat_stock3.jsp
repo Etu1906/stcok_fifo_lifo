@@ -4,23 +4,18 @@
 <%@ page import = "etat_stock.storage.Stock" %>
 <%
     EtatStock etatStock = (EtatStock) request.getAttribute("etatStock");
-    String dt1 = ( String )request.getAttribute("dt1");
-    String dt2 = ( String )request.getAttribute("dt2");
 %>
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tableau de l'État de Stock   </title>
-    <link rel="stylesheet" href="css/table.css" />
-    <style type="text/css"></style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="title">État De Stock du <%= dt1 %> au <%= dt2 %></div>
-      <table>
-        <tr class="title_row" >
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de l'État de Stock</title>
+</head>
+<body>
+    <h1>État de Stock</h1>
+
+    <table border="1">
+        <tr>
             <th>Article</th>
             <th>Unite</th>
             <th>TypeStock</th>
@@ -30,6 +25,7 @@
             <th>Montant</th>
             <th>PU</th>
         </tr>
+
         <%
             for (Stock stock : etatStock.getListeStock()) {
         %>
@@ -46,18 +42,9 @@
         <%
             }
         %>
-        <tr>
-            <td style="text-align: right; background: #000;color:#fff; font-weight:600; padding-right: 10px;" >Somme Montant</td>
-            <td></td>
-            <td></td>
-            <td> </td>
-            <td>  </td>
-            <td></td>
-            <td><%= etatStock.getSommeMontant() %></td>
-            <td></td>
-        </tr>
-      </table>
-        <a class="link" href="index.jsp">Retour</a>
-    </div>
-  </body>
+    </table>
+
+    <p>Somme du Montant : <%= etatStock.getSommeMontant() %></p>
+    <a href="index.jsp" > Retour </a>
+</body>
 </html>

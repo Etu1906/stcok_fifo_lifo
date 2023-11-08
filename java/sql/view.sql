@@ -1,16 +1,21 @@
 -- etat de stock 
 -- pour date 1
+create or replace view v_article_magasin as 
+    select idarticle , idmagasin
+    from magasin as m
+        cross join article as a;
+
 create  temp table v_entree_date1 as  
     select *
         from entree as e 
     where idarticle like '%'  
-    and date_entree <= '02-02-19'
+    and date_entree <'2019-08-07T00:00'
     and idmagasin like '%';
 
 create temp table v_sortie_date1 as 
     select * 
         from sortie as  s 
-    where  date_sortie <= '02-02-19';
+    where  date_sortie <= '08-08-19';
 
 create or replace view v_sortie_date1_group as 
     select sum(quantite_sortie) as quantite_sortie , identree
@@ -33,15 +38,15 @@ create temp table v_entree_date2 as
     select *
         from entree as e 
     where idarticle like '%'  
-    and date_entree > '02-02-19'
-    and date_entree <= '28-02-19'
+    and date_entree >= '08-08-2019'
+    and date_entree <= '12-12-2019'
     and idmagasin like '%';
 
 create temp table v_sortie_date2 as 
     select * 
         from sortie as  s 
-    where date_sortie > '02-02-19'
-    and date_sortie <= '28-02-19';
+    where date_sortie >= '08-08-19'
+    and date_sortie <= '12-12-19';
 
 create or replace view v_sortie_date2_group as 
     select sum(quantite_sortie) as quantite_sortie , identree
@@ -73,19 +78,29 @@ create or replace view v_montant as
 
 -- véritable état de stock ( le view ampiasaina )
 create or replace view v_etat_stock as  
-    select  s.idarticle , s.idmagasin , s.qte as sortant , q.qte as qte_initiale  , montant
+    select  am.idarticle , am.idmagasin , coalesce(s.qte , 0 ) as sortant , coalesce(q.qte , 0 ) as qte_initiale  , coalesce(montant , 0) as montant
      from v_sortant as s 
     left join v_montant as m 
         on s.idarticle = m.idarticle 
         and s.idmagasin = m.idmagasin
     left join v_qte_initiale as q 
         on s.idarticle = q.idarticle 
-        and s.idmagasin = q.idmagasin;
+        and s.idmagasin = q.idmagasin
+    right join v_article_magasin as am 
+        on am.idarticle = s.idarticle
+        and s.idmagasin = am.idmagasin    
+    ;
 
 create or replace view v_etat_stock_article as 
     select * 
     from v_etat_stock as e 
         natural join article as s;
+
+select  e.idarticle , idmagasin , sortant , qte_initiale , montant , a.nom_article  , a.idunite , a.idtypestock
+    from v_etat_stock as e 
+        left join article as a
+        on a.idarticle = e.idarticle
+        ;
 
 create or replace view v_etat_stock_article_magasin as 
     select * 
@@ -107,7 +122,7 @@ create temp table v_entree_article as
     select *
         from entree as e 
     where idarticle like 'R11'  
-    and date_entree <= '02-02-19'
+    and date_entree <= '07-08-19'
     and idmagasin like 'M1';
 
 create temp table v_sortie_article as
@@ -119,7 +134,7 @@ create temp table v_sortie_article as
         where idarticle =  'R11' 
         and idmagasin like 'M1'
     )
-    and date_sortie <= '02-02-19';
+    and date_sortie <= '07-08-19';
 
 create or replace view v_qte_article as  
     select  e.identree , idarticle , quantite_entree - coalesce(quantite_sortie , 0) as qte ,  pu  , idmagasin , date_entree

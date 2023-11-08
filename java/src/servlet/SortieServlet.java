@@ -1,11 +1,13 @@
 package servlet;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import mouvement.Mouvement;
 
 import java.io.IOException;
 
+@WebServlet("/ajoutmouvement")
 public class SortieServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -17,10 +19,10 @@ public class SortieServlet extends HttpServlet {
         try {
             Mouvement mouvement = new Mouvement();
             mouvement.sortie(date, idarticle, quantite, idmagasin);
-
-            response.sendRedirect("mouvement.jsp");
+            response.sendRedirect("/stock/mouvement");
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("/stock/mouvement?erreur=" + e.getMessage());
         }
     }
 }

@@ -21,7 +21,7 @@ public class App {
             // System.out.println("Somme du montant : " + etatStock.getSommeMontant());
 
             Mouvement m = new Mouvement();
-            m.sortie("02-02-2019", "R11", "400", "M1");
+            m.sortie("02-02-2019", "R11", "1000", "M2");
 
         } catch (Exception e) {
             e.printStackTrace();

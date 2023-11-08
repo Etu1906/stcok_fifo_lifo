@@ -5,13 +5,13 @@ BEGIN
     EXECUTE 'CREATE TEMP TABLE v_entree_date1 AS ' ||
     'SELECT * FROM entree AS e ' ||
     'WHERE idarticle LIKE ' || quote_literal(idarticle) || ' ' ||
-    'AND date_entree <= ' || quote_literal(dt1) || ' ' ||
+    'AND date_entree < ' || quote_literal(dt1) || ' ' ||
     'AND idmagasin LIKE ' || quote_literal(idmagasin);
 
     -- Crée la table temporaire temp_sortie_date1
     EXECUTE 'CREATE TEMP TABLE v_sortie_date1 AS ' ||
     'SELECT * FROM sortie AS s ' ||
-    'WHERE date_sortie <= ' || quote_literal(dt1);
+    'WHERE date_sortie < ' || quote_literal(dt1);
 
     create or replace view v_sortie_date1_group as 
     select sum(quantite_sortie) as quantite_sortie , identree
@@ -40,7 +40,7 @@ BEGIN
     EXECUTE 'CREATE TEMP TABLE v_entree_date2 AS ' ||
     'SELECT * FROM entree AS e ' ||
     'WHERE idarticle LIKE ' || quote_literal(idarticle) || ' ' ||
-    'AND date_entree > ' || quote_literal(dt1) || ' ' ||
+    'AND date_entree >= ' || quote_literal(dt1) || ' ' ||
     'AND date_entree <= ' || quote_literal(dt2) || ' ' ||
     'AND idmagasin LIKE ' || quote_literal(idmagasin);
 
@@ -48,7 +48,7 @@ BEGIN
     -- Crée la table temporaire temp_sortie_date2
     EXECUTE 'CREATE TEMP TABLE v_sortie_date2 AS ' ||
     'SELECT * FROM sortie AS s ' ||
-    'WHERE date_sortie > ' || quote_literal(dt1) || ' ' ||
+    'WHERE date_sortie >= ' || quote_literal(dt1) || ' ' ||
     'AND date_sortie <= ' || quote_literal(dt2);
 
     create or replace view v_sortie_date2_group as 
@@ -88,14 +88,18 @@ create or replace function create_for_Etat_stock(dt1 text, dt2 text, idmagasin t
 BEGIN
         -- véritable état de stock ( le view ampiasaina )
     create or replace view v_etat_stock as  
-        select  s.idarticle , s.idmagasin , s.qte as sortant , q.qte as qte_initiale  , montant
+        select  am.idarticle , am.idmagasin , coalesce(s.qte , 0 ) as sortant , coalesce(q.qte , 0 ) as qte_initiale  , coalesce(montant , 0) as montant
         from v_sortant as s 
         left join v_montant as m 
             on s.idarticle = m.idarticle 
             and s.idmagasin = m.idmagasin
         left join v_qte_initiale as q 
             on s.idarticle = q.idarticle 
-            and s.idmagasin = q.idmagasin;
+            and s.idmagasin = q.idmagasin
+        right join v_article_magasin as am 
+            on am.idarticle = s.idarticle
+            and s.idmagasin = am.idmagasin 
+        ;
 
     create or replace view v_etat_stock_article as 
         select * 

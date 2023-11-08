@@ -113,4 +113,10 @@ public class Entree {
     public void setDateEntree(String dateEntree) {
         this.dateEntree = dateEntree;
     }
+
+    @Override
+    public String toString() {
+        return "Entree [idEntree=" + idEntree + ", article=" + article + ", quantiteEntree=" + quantiteEntree + ", pu="
+                + pu + ", magasin=" + magasin + ", dateEntree=" + dateEntree + "]";
+    }
 }

@@ -1,0 +1,98 @@
+.container {
+  height: 80vh;
+  width: 80vw;
+  background: #fafafa;
+}
+.container {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Deux colonnes de largeur égale */
+  grid-gap: 0px; /* Espacement entre les éléments */
+  border-radius: 10px;
+  box-shadow: #efefef -19px 6px 43px;
+}
+.left {
+  background-color: #ffffff;
+  padding: 20px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.right {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background: url("../img/5x5-storage-unit-scaled.jpeg");
+  background-position: center;
+  background-size: cover;
+}
+label {
+  font-weight: 500;
+  margin-top: 20px;
+}
+.form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.text {
+  margin-bottom: 5px;
+}
+form {
+  box-sizing: border-box;
+  padding: 10px;
+  padding-left: 40px;
+  height: 100%;
+}
+input:not([type="submit"]),
+select {
+  height: 40px;
+  border: 2px solid #e7e7e7;
+  outline: none;
+  min-width: 300px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+input[type="submit"] {
+  height: 40px;
+  border: none;
+  outline: none;
+  padding: 5px;
+  width: 30%;
+  color: #ffffff;
+  background: #000000;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.5s;
+  font-weight: 600;
+}
+
+input[type="submit"]:hover {
+  color: #000;
+  background: transparent;
+  border: 1px solid #000000;
+}
+
+.ligne {
+  width: 30%;
+  margin-top: 5px;
+}
+.title {
+  font-size: 30px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: 600;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}

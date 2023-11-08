@@ -57,16 +57,21 @@ public class Mouvement {
         }
         for (Entree entree : lEntrees) {
             qteEntree = entree.getQuantiteEntree();
-            if (qteEntree > 0) {
+            if (stock_ok == true)
+                break;
+            // raha misy le anaty entrée ka mbola misy le qté nasorina
+            if (qteEntree > 0 && quantite != 0) {
+                System.out.println(qteEntree + " <-> " + quantite);
                 if (qteEntree > quantite) {
                     stock_ok = true;
-                    quantite = qteEntree - quantite;
                     qte_sortie = quantite;
                 } else {
                     quantite = quantite - qteEntree;
                     qte_sortie = qteEntree;
                 }
-                Sortie sortie = new Sortie(quantite, getDate(), entree.getIdEntree());
+                if (quantite == 0)
+                    stock_ok = true;
+                Sortie sortie = new Sortie(qte_sortie, getDate(), entree.getIdEntree());
                 lSorties.add(sortie);
             }
         }
@@ -79,7 +84,8 @@ public class Mouvement {
     }
 
     public void sortie(String date, String idarticle, String qte, String idmagasin) throws Exception {
-        setQuantite(quantite);
+        System.out.println("qté : " + quantite);
+        setQuantite(qte);
         setDate(date);
         Connect c = new Connect();
         c.getConnectionPostGresql();

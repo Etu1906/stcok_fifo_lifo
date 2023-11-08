@@ -22,7 +22,8 @@ public class EtatStockServlet extends HttpServlet {
         // implémenter)
         try {
             EtatStock etatStock = EtatStock.getEtatStock(dt1, dt2, magasin, article);
-
+            request.setAttribute("dt1", dt1.split("T")[0]);
+            request.setAttribute("dt2", dt2.split("T")[0]);
             // Placez l'objet EtatStock dans le request
             request.setAttribute("etatStock", etatStock);
 
