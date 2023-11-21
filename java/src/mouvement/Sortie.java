@@ -1,6 +1,7 @@
 package mouvement;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -9,10 +10,18 @@ import connect.Connect;
 public class Sortie {
     private int idSortie;
     private double quantiteSortie;
-    private String dateSortie;
+    private Date dateSortie;
     private Entree entree;
 
-    public Sortie(double quantiteSortie, String dateSortie, int entree) {
+    public Sortie(double quantiteSortie, String dateSortie, int entree) throws Exception {
+        setQuantiteSortie(quantiteSortie);
+        setDateSortie(dateSortie);
+        Entree e = new Entree();
+        e.setIdEntree(entree);
+        setEntree(e);
+    }
+
+    public Sortie(double quantiteSortie, Date dateSortie, int entree) throws Exception {
         setQuantiteSortie(quantiteSortie);
         setDateSortie(dateSortie);
         Entree e = new Entree();
@@ -30,7 +39,7 @@ public class Sortie {
 
         String sql = "INSERT INTO sortie (quantite_sortie, date_sortie, identree) " +
                 "VALUES (" + quantiteSortie + ", '" + dateSortie + "', " + entree.getIdEntree() + ")";
-        System.out.println( sql );
+        System.out.println(sql);
         Connection conn = c.getConnection();
         Statement stmt = conn.createStatement();
 
@@ -76,11 +85,17 @@ public class Sortie {
         this.quantiteSortie = quantiteSortie;
     }
 
-    public String getDateSortie() {
+    public Date getDateSortie() {
         return dateSortie;
     }
 
-    public void setDateSortie(String dateSortie) {
+    public void setDateSortie(String dateSortie) throws Exception {
+        if (dateSortie == null)
+            throw new Exception("date invalide");
+        setDateSortie(Date.valueOf(dateSortie));
+    }
+
+    public void setDateSortie(Date dateSortie) {
         this.dateSortie = dateSortie;
     }
 

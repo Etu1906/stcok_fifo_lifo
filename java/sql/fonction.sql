@@ -1,5 +1,11 @@
-create or replace function create_for_date1(dt1 text, dt2 text, idmagasin text, idarticle text) RETURNS void AS $$
+create or replace function create_for_date1(dt1 text, dt2 text , idmagasin text, idarticle text) RETURNS void AS $$
 BEGIN
+    EXECUTE 'CREATE TEMP TABLE v_article_magasin AS ' ||
+   'SELECT idarticle, idmagasin ' ||
+   'FROM magasin AS m ' ||
+   'CROSS JOIN article AS a ' || 
+   'WHERE idmagasin LIKE ' || quote_literal(idmagasin) || ' ' ||
+   'AND idarticle LIKE ' || quote_literal(idarticle);
 
     -- Crée la table temporaire temp_entree_date1
     EXECUTE 'CREATE TEMP TABLE v_entree_date1 AS ' ||
@@ -28,14 +34,11 @@ BEGIN
     select idarticle , idmagasin , sum( quantite_entree ) as qte  
         from v_qte_date1 as q 
     group  by idarticle , idmagasin;
-
-
 END;
 $$ LANGUAGE plpgsql;
 
 create or replace function create_for_date2(dt1 text, dt2 text, idmagasin text, idarticle text) RETURNS void AS $$
 BEGIN
-
     -- Crée la table temporaire temp_entree_date2
     EXECUTE 'CREATE TEMP TABLE v_entree_date2 AS ' ||
     'SELECT * FROM entree AS e ' ||
@@ -172,12 +175,17 @@ CREATE OR REPLACE FUNCTION get_qte_article(
     in_date text
 ) RETURNS void AS $$
 BEGIN
+    create or replace view v_sortie_article_group as 
+        select sum(quantite_sortie) as quantite_sortie , identree 
+        from v_sortie_article as s  
+            group by identree;
+
     create or replace view v_qte_article as  
-    select  e.identree , idarticle , quantite_entree - coalesce(quantite_sortie , 0) as qte ,  pu  , idmagasin , date_entree
-        from v_entree_article as e  
-    left join v_sortie_article as s 
-        on e.identree = s.identree
-    ;
+        select  e.identree , idarticle , quantite_entree - coalesce(quantite_sortie , 0) as qte ,  pu  , idmagasin , date_entree
+            from v_entree_article as e  
+        left join v_sortie_article_group as s 
+            on e.identree = s.identree
+        ;
 
     create or replace view v_qte_articel_type as 
     select *

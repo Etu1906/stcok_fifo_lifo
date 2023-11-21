@@ -1,6 +1,7 @@
 package mouvement;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Entree {
     private double quantiteEntree;
     private double pu;
     private Magasin magasin;
-    private String dateEntree;
+    private Date dateEntree;
 
     public static List<Entree> getEntreeArticle(Connect c) throws Exception {
         boolean transact = true;
@@ -106,17 +107,24 @@ public class Entree {
         this.magasin = magasin;
     }
 
-    public String getDateEntree() {
+    public Date getDateEntree() {
         return dateEntree;
     }
 
-    public void setDateEntree(String dateEntree) {
-        this.dateEntree = dateEntree;
+    public void setDateEntree(String dateEntree) throws Exception {
+        if (dateEntree == null) {
+            throw new Exception("date invalide");
+        }
+        setDateEntree(Date.valueOf(dateEntree));
     }
 
     @Override
     public String toString() {
         return "Entree [idEntree=" + idEntree + ", article=" + article + ", quantiteEntree=" + quantiteEntree + ", pu="
                 + pu + ", magasin=" + magasin + ", dateEntree=" + dateEntree + "]";
+    }
+
+    public void setDateEntree(Date dateEntree) {
+        this.dateEntree = dateEntree;
     }
 }

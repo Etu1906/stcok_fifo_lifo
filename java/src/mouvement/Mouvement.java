@@ -1,6 +1,7 @@
 package mouvement;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import etat_stock.produit.Article;
 import etat_stock.storage.Magasin;
 
 public class Mouvement {
-    private String date;
+    private Date date;
     private Article article;
     private double quantite;
     private Magasin magasin;
@@ -26,6 +27,8 @@ public class Mouvement {
             c.getConnectionPostGresql();
         }
         String sql = "SELECT get_entree_sortie_article(?, ?, ?)";
+        System.out
+                .println("SELECT get_entree_sortie_article('" + idarticle + "' , '" + idmagasin + "',' " + dt + "' )");
         Connection conn = c.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, idarticle);
@@ -34,7 +37,7 @@ public class Mouvement {
 
         try {
             stmt.execute();
-            System.out.println("Les vues ont été créées avec succès.");
+            System.out.println("Les vues ont été créées avec succès. oui oui");
             if (transact == false)
                 c.commit();
             stmt.close();
@@ -52,17 +55,17 @@ public class Mouvement {
         boolean stock_ok = false;
         double qte_sortie = 0;
         if (type_stock.compareToIgnoreCase("lifo") == 0) {
-            // avy any amn farany no jerena satria ascendant le date
             Collections.reverse(lEntrees);
         }
         for (Entree entree : lEntrees) {
+            System.out.println(entree);
             qteEntree = entree.getQuantiteEntree();
             if (stock_ok == true)
                 break;
             // raha misy le anaty entrée ka mbola misy le qté nasorina
             if (qteEntree > 0 && quantite != 0) {
-                System.out.println(qteEntree + " <-> " + quantite);
-                if (qteEntree > quantite) {
+                System.out.println(qteEntree + " eto <-> " + quantite);
+                if (qteEntree >= quantite) {
                     stock_ok = true;
                     qte_sortie = quantite;
                 } else {
@@ -112,14 +115,18 @@ public class Mouvement {
     }
 
     // Getters and setters
-    public String getDate() {
+    public Date getDate() {
         return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void setDate(String date) throws Exception {
         if (date == null || date.isEmpty() == true)
             throw new Exception(" date invalide ");
-        this.date = date;
+        setDate(Date.valueOf(date));
     }
 
     public Article getArticle() {

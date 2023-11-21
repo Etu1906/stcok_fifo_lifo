@@ -17,11 +17,11 @@
           <div class="form">
             <label for="">
               <div class="text">Date 1 :</div>
-              <input type="datetime-local" name="dt1" id="" />
+              <input type="date" name="dt1" id="" />
             </label>
             <label for="">
                 <div class="text">Date 2 :</div>
-                <input type="datetime-local" name="dt2" id="" />
+                <input type="date" name="dt2" id="" />
               </label>
             <label for="">
               <div class="text">Magasin :</div>

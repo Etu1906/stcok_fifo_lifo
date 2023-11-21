@@ -3,7 +3,10 @@
 create or replace view v_article_magasin as 
     select idarticle , idmagasin
     from magasin as m
-        cross join article as a;
+        cross join article as 
+    where idmagasin like '%'
+    and idarticle like '%'
+    ;
 
 create  temp table v_entree_date1 as  
     select *
@@ -65,7 +68,7 @@ create or replace view v_qte_date2 as
         from v_qte_union as e 
     left join v_sortie_date2_group as s 
         on s.identree = e.identree;
-
+ 
 create or replace view v_sortant as  
     select idarticle , idmagasin , sum( quantite_entree ) as qte  
         from v_qte_date2 as qt2 
@@ -91,6 +94,7 @@ create or replace view v_etat_stock as
         and s.idmagasin = am.idmagasin    
     ;
 
+ 
 create or replace view v_etat_stock_article as 
     select * 
     from v_etat_stock as e 
@@ -117,7 +121,7 @@ create or replace view v_somme_montant as
     select sum( montant ) as montant
         from v_etat_stock as e; 
 
--- mouvement de sortie
+-- ouvement de sortie
 create temp table v_entree_article as  
     select *
         from entree as e 
@@ -136,10 +140,15 @@ create temp table v_sortie_article as
     )
     and date_sortie <= '07-08-19';
 
+create or replace view v_sortie_article_group as 
+    select sum(quantite_sortie) as quantite_sortie , identree 
+    from v_sortie_article as s  
+        group by identree;
+
 create or replace view v_qte_article as  
     select  e.identree , idarticle , quantite_entree - coalesce(quantite_sortie , 0) as qte ,  pu  , idmagasin , date_entree
         from v_entree_article as e  
-    left join v_sortie_article as s 
+    left join v_sortie_article_group as s 
         on e.identree = s.identree
     ;
 

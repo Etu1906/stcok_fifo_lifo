@@ -25,7 +25,7 @@
             </div>
             <label for="">
               <div class="text">Date :</div>
-              <input type="datetime-local" name="date" id="" />
+              <input type="date" name="date" id="" />
             </label>
             <label for="">
               <div class="text">Article :</div>
@@ -42,7 +42,7 @@
             </label>
             <label for="">
               <div class="text">Quantité :</div>
-              <input type="number" name="quantite" id="" />
+              <input type="text" name="quantite" id="" />
             </label>
             <label for="">
               <div class="text">Magasin :</div>

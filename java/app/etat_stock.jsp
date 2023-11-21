@@ -27,8 +27,8 @@
             <th>Magasin</th>
             <th>Quantité Initiale</th>
             <th>Sortant</th>
-            <th>Montant</th>
             <th>PU</th>
+            <th>Montant</th>
         </tr>
         <%
             for (Stock stock : etatStock.getListeStock()) {
@@ -40,8 +40,8 @@
                 <td><%= stock.getMagasin().getNomMagasin() %></td>
                 <td><%= stock.getQuantiteInitiale() %></td>
                 <td><%= stock.getSortant() %></td>
-                <td><%= stock.getMontant() %></td>
                 <td><%= stock.getPu() %></td>
+                <td><%= stock.getMontant() %></td>
             </tr>
         <%
             }
@@ -53,8 +53,8 @@
             <td> </td>
             <td>  </td>
             <td></td>
-            <td><%= etatStock.getSommeMontant() %></td>
             <td></td>
+            <td><%= etatStock.getSommeMontant() %></td>
         </tr>
       </table>
         <a class="link" href="index.jsp">Retour</a>
